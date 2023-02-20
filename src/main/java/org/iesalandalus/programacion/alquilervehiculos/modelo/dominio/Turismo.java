@@ -86,7 +86,7 @@ public class Turismo {
 	}
 
 	public static Turismo getTurismoConMatricula(String matricula) {
-		return new Turismo("Mercedes", "C220", 121, matricula);
+		return new Turismo("Seat", "León", 90, matricula);
 	}
 
 	
@@ -110,7 +110,7 @@ public class Turismo {
 
 	@Override
 	public String toString() {
-		return String.format("%s %s (%sCV) - %s", marca , modelo , cilindrada , matricula );
+		return String.format("%s %s (%s cc) - %s", marca , modelo , cilindrada , matricula );
 	}
 
 }
