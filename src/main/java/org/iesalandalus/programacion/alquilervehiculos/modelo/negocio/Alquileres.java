@@ -1,7 +1,10 @@
 package org.iesalandalus.programacion.alquilervehiculos.modelo.negocio;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
@@ -45,4 +48,36 @@ public class Alquileres {
 		return coleccionAlquileres.size();
 	}
 
+	// recorrer cliente
+	private void comprobarAlquiler(Cliente cliente, Turismo turismo, LocalDate fechaAlquiler)throws OperationNotSupportedException {
+		
+		for (Alquiler alquiler : coleccionAlquileres) {
+			if (alquiler.getFechaDevolucion() == null) {
+				if (alquiler.getCliente().equals(cliente)) {
+					throw new OperationNotSupportedException("ERROR: El cliente tiene otro alquiler sin devolver.");
+				}
+				if (alquiler.getTurismo().equals(turismo)) {
+					throw new OperationNotSupportedException("ERROR: El turismo está actualmente alquilado.");
+				}
+			} else if (alquiler.getFechaDevolucion().isAfter(fechaAlquiler)) {
+				if (alquiler.getCliente().equals(cliente)) {
+					throw new OperationNotSupportedException("ERROR: El cliente tiene un alquiler posterior.");
+				}
+				if (alquiler.getTurismo().equals(turismo)) {
+					throw new OperationNotSupportedException("ERROR: El turismo tiene un alquiler posterior.");
+				}
+			}
+		}
+	}
+	public Alquiler insertar(Alquiler alquiler) throws OperationNotSupportedException {
+		if(alquiler == null) {
+			throw new NullPointerException("ERROR: No se puede insertar un alquiler nulo.");
+		}
+		comprobarAlquiler(alquiler.getCliente(), alquiler.getTurismo(), alquiler.getFechaAlquiler());
+		coleccionAlquileres.add(alquiler);
+		
+		
+		return alquiler;
+		
+	}
 }
