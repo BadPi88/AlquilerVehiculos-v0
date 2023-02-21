@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.alquilervehiculos.modelo;
 
+import java.time.LocalDate;
+
 import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
@@ -39,7 +41,7 @@ public class Modelo {
 		alquileres.insertar(new Alquiler(alquiler));
 	}
 
-	//buscar cliente alquiler turismo            
+	// buscar cliente alquiler turismo
 	public Cliente buscar(Cliente cliente) {
 		return new Cliente(clientes.buscar(cliente));
 	}
@@ -55,7 +57,16 @@ public class Modelo {
 	public void modificar(Cliente cliente, String nombre, String telefono) throws OperationNotSupportedException {
 		clientes.modificar(cliente, nombre, telefono);
 	}
-	
-	
-	
+
+	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) throws OperationNotSupportedException {
+		if (alquiler == null) {
+			throw new NullPointerException("ERROR: No se puede devolver un alquiler nulo.");
+		}
+		if (alquileres.buscar(alquiler) == null) {
+			throw new OperationNotSupportedException("ERROR: No existe el alquiler a devolver.");
+		}
+		alquiler.devolver(fechaDevolucion);
+
+	}
+
 }
